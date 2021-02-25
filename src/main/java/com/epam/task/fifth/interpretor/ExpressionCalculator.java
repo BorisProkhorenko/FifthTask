@@ -1,6 +1,4 @@
-package com.epam.task.fifth.logic;
-
-import com.epam.task.fifth.interpretor.*;
+package com.epam.task.fifth.interpretor;
 
 import java.util.ArrayList;
 import java.util.Scanner;

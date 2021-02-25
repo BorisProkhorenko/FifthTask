@@ -1,10 +1,10 @@
 package com.epam.task.fifth.parsing;
 
-import com.epam.task.fifth.components.Component;
-import com.epam.task.fifth.components.LexemeLeaf;
-import com.epam.task.fifth.components.TextComposite;
-import com.epam.task.fifth.data.DataException;
+import com.epam.task.fifth.entity.components.Component;
+import com.epam.task.fifth.entity.components.LexemeLeaf;
+import com.epam.task.fifth.entity.components.TextComposite;
 import com.epam.task.fifth.enums.LexemeType;
+import com.epam.task.fifth.logic.ComponentException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +18,7 @@ public class SentenceParser extends AbstractParser {
     private final static String PATTERN_EXPRESSION = "\\[[\\d\\*\\+\\/\\-]+]";
     private final static String SPLITTER = "\\s|(?=" + PATTERN_PUNCTUATION + ")";
     private final static String DELIMITER = " ";
+    private final static String EMPTY = "";
 
 
     @Override
@@ -26,12 +27,12 @@ public class SentenceParser extends AbstractParser {
         TextComposite sentence = new TextComposite();
         Arrays.stream(lexemes).forEach(lexeme -> {
             lexeme = lexeme.trim();
-            if (!lexeme.equals("")) {
+            if (!lexeme.equals(EMPTY)) {
                 LexemeLeaf component = new LexemeLeaf(lexeme);
                 try {
                     setLexemeType(component);
                     sentence.addComponent(component);
-                } catch (DataException e) {
+                } catch (ComponentException e) {
                     e.printStackTrace();
                 }
             }
@@ -57,7 +58,7 @@ public class SentenceParser extends AbstractParser {
         return sentence.trim();
     }
 
-    private void setLexemeType(LexemeLeaf lexeme) throws DataException {
+    private void setLexemeType(LexemeLeaf lexeme) throws ComponentException {
         String value = lexeme.getValue();
         if (Pattern.matches(PATTERN_WORD, value)) {
             lexeme.setType(LexemeType.WORD);
@@ -66,7 +67,7 @@ public class SentenceParser extends AbstractParser {
         } else if (Pattern.matches(PATTERN_EXPRESSION, value)) {
             lexeme.setType(LexemeType.EXPRESSION);
         } else {
-            throw new DataException("Incorrect lexeme in sentence");
+            throw new ComponentException("Incorrect lexeme in sentence");
         }
     }
 }

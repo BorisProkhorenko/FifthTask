@@ -1,4 +1,4 @@
-package com.epam.task.fifth.components;
+package com.epam.task.fifth.entity.components;
 
 import com.epam.task.fifth.enums.LexemeType;
 

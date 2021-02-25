@@ -1,37 +1,47 @@
 package com.epam.task.fifth;
 
-import com.epam.task.fifth.components.Component;
-import com.epam.task.fifth.components.TextComposite;
-import com.epam.task.fifth.data.DataException;
-import com.epam.task.fifth.data.DataReader;
+import com.epam.task.fifth.entity.components.Component;
+import com.epam.task.fifth.entity.components.TextComposite;
 import com.epam.task.fifth.parsing.ParagraphParser;
 import com.epam.task.fifth.parsing.SentenceParser;
 import com.epam.task.fifth.parsing.TextParser;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Director {
 
     private SentenceParser sentenceParser;
     private ParagraphParser paragraphParser;
     private TextParser textParser;
-    private DataReader reader;
+    private static final String LINE_DELIMITER = "\n";
 
     public Director() {
-        DataReader reader = new DataReader();
-        SentenceParser sentenceParser = new SentenceParser();
-        ParagraphParser paragraphParser = new ParagraphParser(sentenceParser);
-        TextParser textParser = new TextParser(paragraphParser);
+        sentenceParser = new SentenceParser();
+        paragraphParser = new ParagraphParser(sentenceParser);
+        textParser = new TextParser(paragraphParser);
     }
 
-    public Director(SentenceParser sentenceParser, DataReader reader) {
+    public Director(SentenceParser sentenceParser) {
         this.sentenceParser = sentenceParser;
-        this.reader = reader;
-        ParagraphParser paragraphParser = new ParagraphParser(sentenceParser);
-        TextParser textParser = new TextParser(paragraphParser);
+        paragraphParser = new ParagraphParser(sentenceParser);
+        textParser = new TextParser(paragraphParser);
     }
 
-    public Component parseComponentsFromFile(String filename) throws DataException {
-        String text = reader.readData(filename);
+    public Component parseComponentsFromFile(String filename) throws IOException {
+        String text = readFromFile(filename);
         return chainParseComponents(text);
+    }
+
+    public String readFromFile(String filename) throws IOException {
+        StringBuffer text = new StringBuffer();
+        Files.lines(Paths.get(filename), StandardCharsets.UTF_8)
+                .forEach(line -> text.append(line).append(LINE_DELIMITER));
+        int index = text.lastIndexOf(LINE_DELIMITER);
+        text.deleteCharAt(index);
+        return text.toString();
     }
 
     public Component chainParseComponents(String text) {
@@ -41,6 +51,5 @@ public class Director {
     public String chainParseString(TextComposite composite) {
         return textParser.parseString(composite);
     }
-
 
 }

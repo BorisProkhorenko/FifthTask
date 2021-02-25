@@ -1,8 +1,8 @@
-import com.epam.task.fifth.components.Component;
-import com.epam.task.fifth.components.LexemeLeaf;
-import com.epam.task.fifth.components.TextComposite;
-import com.epam.task.fifth.data.DataException;
+import com.epam.task.fifth.entity.components.Component;
+import com.epam.task.fifth.entity.components.LexemeLeaf;
+import com.epam.task.fifth.entity.components.TextComposite;
 import com.epam.task.fifth.enums.LexemeType;
+import com.epam.task.fifth.logic.ComponentException;
 import com.epam.task.fifth.logic.TextLogic;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -113,7 +113,7 @@ public class TextLogicTest {
     }
 
     @Test
-    public void testSortParagraphsWhenTextCompositeApplied() throws DataException {
+    public void testSortParagraphsWhenTextCompositeApplied() throws ComponentException {
         //given
         TextComposite expected = new TextComposite();
         expected.addComponent(SECOND_PARAGRAPH);
@@ -125,100 +125,100 @@ public class TextLogicTest {
     }
 
 
-    @Test(expected = DataException.class)
-    public void testSortParagraphsWhenParagraphCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testSortParagraphsWhenParagraphCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortParagraphs(FIRST_PARAGRAPH);
     }
 
-    @Test(expected = DataException.class)
-    public void testSortParagraphsWhenSentenceCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testSortParagraphsWhenSentenceCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortParagraphs(FIRST_SENTENCE);
     }
 
 
     @Test
-    public void testSortLexemesWhenSentenceCompositeApplied() throws DataException {
+    public void testSortLexemesWhenSentenceCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortLexemes(THIRD_SENTENCE);
         //then
         Assert.assertEquals(THIRD_SENTENCE_SORTED_LEXEMES, actual);
     }
 
-    @Test(expected = DataException.class)
-    public void testSortLexemesWhenTextCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testSortLexemesWhenTextCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortLexemes(TEXT_COMPOSITE);
     }
 
-    @Test(expected = DataException.class)
-    public void testSortLexemesWhenParagraphCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testSortLexemesWhenParagraphCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortLexemes(FIRST_PARAGRAPH);
     }
 
     @Test
-    public void testSortLexemesForEachSentenceSafeWhenTextCompositeApplied() throws DataException {
+    public void testSortLexemesForEachSentenceSafeWhenTextCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.sortLexemesInEachSentenceSafe(TEXT_COMPOSITE);
+        Component actual = LOGIC.sortLexemesInEachSentence(TEXT_COMPOSITE);
         //then
         Assert.assertEquals(TEXT_COMPOSITE_SORTED_LEXEMES, actual);
     }
 
     @Test
-    public void testSortLexemesForEachSentenceSafeWhenParagraphCompositeApplied() throws DataException {
+    public void testSortLexemesForEachSentenceSafeWhenParagraphCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.sortLexemesInEachSentenceSafe(FIRST_PARAGRAPH);
+        Component actual = LOGIC.sortLexemesInEachSentence(FIRST_PARAGRAPH);
         //then
         Assert.assertEquals(FIRST_PARAGRAPH_SORTED_LEXEMES, actual);
     }
 
-    @Test(expected = DataException.class)
-    public void testSortLexemesForEachSentenceSafeWhenSentenceCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testSortLexemesForEachSentenceSafeWhenSentenceCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.sortLexemesInEachSentenceSafe(FIRST_SENTENCE);
+        Component actual = LOGIC.sortLexemesInEachSentence(FIRST_SENTENCE);
     }
 
     @Test
-    public void testCalculateExpressionsWhenSentenceCompositeApplied() throws DataException {
+    public void testCalculateExpressionsWhenSentenceCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.calculateExpressions(EXPRESSIONS_SENTENCE);
         //then
         Assert.assertEquals(CALCULATED_SENTENCE, actual);
     }
 
-    @Test(expected = DataException.class)
-    public void testCalculateExpressionsWhenTextCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testCalculateExpressionsWhenTextCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.calculateExpressions(TEXT_COMPOSITE);
     }
 
-    @Test(expected = DataException.class)
-    public void testCalculateExpressionsWhenParagraphCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testCalculateExpressionsWhenParagraphCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.calculateExpressions(SECOND_PARAGRAPH);
     }
 
     @Test
-    public void testCalculateExpressionForEachSentenceSafeWhenTextCompositeApplied() throws DataException {
+    public void testCalculateExpressionForEachSentenceSafeWhenTextCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.calculateExpressionsInEachSentenceSafe(EXPRESSIONS_TEXT);
+        Component actual = LOGIC.calculateExpressionsInEachSentence(EXPRESSIONS_TEXT);
         //then
         Assert.assertEquals(CALCULATED_TEXT, actual);
     }
 
     @Test
-    public void testCalculateExpressionForEachSentenceSafeWhenParagraphCompositeApplied() throws DataException {
+    public void testCalculateExpressionForEachSentenceSafeWhenParagraphCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.calculateExpressionsInEachSentenceSafe(FIRST_EXPRESSION_PARAGRAPH);
+        Component actual = LOGIC.calculateExpressionsInEachSentence(FIRST_EXPRESSION_PARAGRAPH);
         //then
         Assert.assertEquals(FIRST_CALCULATED_PARAGRAPH, actual);
     }
 
-    @Test(expected = DataException.class)
-    public void testCalculateExpressionForEachSentenceSafeWhenSentenceCompositeApplied() throws DataException {
+    @Test(expected = ComponentException.class)
+    public void testCalculateExpressionForEachSentenceSafeWhenSentenceCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.calculateExpressionsInEachSentenceSafe(FIRST_SENTENCE);
+        Component actual = LOGIC.calculateExpressionsInEachSentence(FIRST_SENTENCE);
     }
 }

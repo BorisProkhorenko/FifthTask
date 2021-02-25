@@ -1,4 +1,4 @@
-package com.epam.task.fifth.components;
+package com.epam.task.fifth.entity.components;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,12 @@ public class TextComposite implements Component, Comparable<TextComposite> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TextComposite)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TextComposite)){
+            return false;
+        }
         TextComposite that = (TextComposite) o;
         return Objects.equals(components, that.components);
     }

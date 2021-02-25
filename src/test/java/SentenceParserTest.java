@@ -1,6 +1,6 @@
-import com.epam.task.fifth.components.Component;
-import com.epam.task.fifth.components.LexemeLeaf;
-import com.epam.task.fifth.components.TextComposite;
+import com.epam.task.fifth.entity.components.Component;
+import com.epam.task.fifth.entity.components.LexemeLeaf;
+import com.epam.task.fifth.entity.components.TextComposite;
 import com.epam.task.fifth.enums.LexemeType;
 import com.epam.task.fifth.parsing.SentenceParser;
 import org.junit.Assert;

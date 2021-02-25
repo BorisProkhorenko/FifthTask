@@ -1,4 +1,4 @@
-import com.epam.task.fifth.logic.ExpressionCalculator;
+import com.epam.task.fifth.interpretor.ExpressionCalculator;
 import org.junit.Assert;
 import org.junit.Test;
 
