@@ -21,7 +21,7 @@ public class ParagraphParserTest {
 
 
     @Test
-    public void testParseComponents() {
+    public void testParseText() {
         //given
         testComposite = new TextComposite();
         TextComposite firstSentence = new TextComposite();
@@ -39,16 +39,16 @@ public class ParagraphParserTest {
         testComposite.addComponent(secondSentence);
 
         SentenceParser mockSentenceParser = Mockito.mock(SentenceParser.class);
-        when(mockSentenceParser.parseComponents(anyString())).thenReturn(firstSentence, secondSentence);
+        when(mockSentenceParser.parseText(anyString())).thenReturn(firstSentence, secondSentence);
         ParagraphParser parser = new ParagraphParser(mockSentenceParser);
         //when
-        Component actual = parser.parseComponents(PARAGRAPH);
+        Component actual = parser.parseText(PARAGRAPH);
         //then
         Assert.assertEquals(testComposite, actual);
     }
 
     @Test
-    public void testParseString() {
+    public void testParseComponent() {
         //given
         testComposite = new TextComposite();
         Component firstComponent = new TextComposite();
@@ -56,10 +56,10 @@ public class ParagraphParserTest {
         testComposite.addComponent(firstComponent);
         testComposite.addComponent(secondComponent);
         SentenceParser mockSentenceParser = Mockito.mock(SentenceParser.class);
-        when(mockSentenceParser.parseString(any(TextComposite.class))).thenReturn(FIRST_SENTENCE, SECOND_SENTENCE);
+        when(mockSentenceParser.parseComponent(any(TextComposite.class))).thenReturn(FIRST_SENTENCE, SECOND_SENTENCE);
         ParagraphParser parser = new ParagraphParser(mockSentenceParser);
         //when
-        String actual = parser.parseString(testComposite);
+        String actual = parser.parseComponent(testComposite);
         //then
         Assert.assertEquals(PARAGRAPH, actual);
     }

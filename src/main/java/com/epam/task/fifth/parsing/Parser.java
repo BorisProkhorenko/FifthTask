@@ -5,6 +5,6 @@ import com.epam.task.fifth.entity.components.TextComposite;
 
 public interface Parser {
 
-    Component parseComponents(String input);
-    String parseString(TextComposite composite);
+    Component parseText(String input);
+    String parseComponent(TextComposite textComposite);
 }

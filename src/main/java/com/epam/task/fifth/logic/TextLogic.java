@@ -9,8 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TextLogic {
 
@@ -21,12 +21,10 @@ public class TextLogic {
 
     public Component sortParagraphs(TextComposite text) throws ComponentException {
         checkCompositeType(text, TEXT);
-        List<TextComposite> composites = new ArrayList<>();
-        text.getComponents().stream().sorted().forEach(component -> {
-            TextComposite composite = (TextComposite) component;
-            composites.add(composite);
-        });
-        List<Component> components = new ArrayList<>(composites);
+        List<Component> components = text.getComponents()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
         return new TextComposite(components);
     }
 
@@ -50,12 +48,10 @@ public class TextLogic {
 
     public Component sortLexemes(TextComposite sentence) throws ComponentException {
         checkCompositeType(sentence, SENTENCE);
-        List<LexemeLeaf> lexemes = new ArrayList<>();
-        sentence.getComponents().stream().sorted().forEach(component -> {
-            LexemeLeaf leaf = (LexemeLeaf) component;
-            lexemes.add(leaf);
-        });
-        List<Component> components = new ArrayList<>(lexemes);
+        List<Component> components = sentence.getComponents()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
         return new TextComposite(components);
     }
 

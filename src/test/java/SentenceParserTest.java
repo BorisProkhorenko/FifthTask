@@ -25,17 +25,17 @@ public class SentenceParserTest {
     }
 
     @Test
-    public void testParseComponents() {
+    public void testParseText() {
         //when
-        Component actual = parser.parseComponents(SENTENCE);
+        Component actual = parser.parseText(SENTENCE);
         //then
         Assert.assertEquals(testComponent, actual);
     }
 
     @Test
-    public void testParseString() {
+    public void testParseComponent() {
         //when
-        String actual = parser.parseString(testComponent);
+        String actual = parser.parseComponent(testComponent);
         //then
         Assert.assertEquals(SENTENCE, actual);
     }

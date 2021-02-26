@@ -19,7 +19,7 @@ public class TextParserTest {
     private static TextComposite testComposite = new TextComposite();
 
     @Test
-    public void testParse() {
+    public void testParseText() {
         //given
         TextComposite firstSentence = new TextComposite();
         firstSentence.addComponent(new LexemeLeaf("Hello", LexemeType.WORD));
@@ -53,16 +53,16 @@ public class TextParserTest {
         testComposite.addComponent(secondParagraph);
 
         ParagraphParser mockParagraphParser = Mockito.mock(ParagraphParser.class);
-        when(mockParagraphParser.parseComponents(anyString())).thenReturn(firstParagraph, secondParagraph);
+        when(mockParagraphParser.parseText(anyString())).thenReturn(firstParagraph, secondParagraph);
         TextParser parser = new TextParser(mockParagraphParser);
         //when
-        Component actual = parser.parseComponents(TEXT);
+        Component actual = parser.parseText(TEXT);
         //then
         Assert.assertEquals(testComposite, actual);
     }
 
     @Test
-    public void testParseString() {
+    public void testParseComponent() {
         //given
         testComposite = new TextComposite();
         Component firstComponent = new TextComposite();
@@ -70,10 +70,10 @@ public class TextParserTest {
         testComposite.addComponent(firstComponent);
         testComposite.addComponent(secondComponent);
         ParagraphParser mockParagraphParser = Mockito.mock(ParagraphParser.class);
-        when(mockParagraphParser.parseString(any(TextComposite.class))).thenReturn(FIRST_PARAGRAPH, SECOND_PARAGRAPH);
+        when(mockParagraphParser.parseComponent(any(TextComposite.class))).thenReturn(FIRST_PARAGRAPH, SECOND_PARAGRAPH);
         TextParser parser = new TextParser(mockParagraphParser);
         //when
-        String actual = parser.parseString(testComposite);
+        String actual = parser.parseComponent(testComposite);
         //then
         Assert.assertEquals(TEXT, actual);
     }
