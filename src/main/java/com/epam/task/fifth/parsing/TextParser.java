@@ -1,7 +1,7 @@
 package com.epam.task.fifth.parsing;
 
 import com.epam.task.fifth.entity.components.Component;
-import com.epam.task.fifth.entity.components.TextComposite;
+import com.epam.task.fifth.entity.components.Composite;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 public class TextParser extends AbstractParser {
 
-    private final static String TABULATION = "\t";
-    private final static String EMPTY = "";
     private final static String DELIMITER = "\n\t";
 
     public TextParser(Parser successor) {
@@ -24,15 +22,8 @@ public class TextParser extends AbstractParser {
         List<Component> components = Arrays.stream(paragraphs)
                 .map(getSuccessor()::parseText)
                 .collect(Collectors.toList());
-        return new TextComposite(components);
+        return new Composite(components);
     }
 
-    @Override
-    public String parseComponent(TextComposite textComposite) {
-        List<Component> components = textComposite.getComponents();
-        String text = components.stream()
-                .map((Component composite) -> getSuccessor().parseComponent((TextComposite) composite))
-                .collect(Collectors.joining(DELIMITER, TABULATION, EMPTY));
-        return text;
-    }
+
 }

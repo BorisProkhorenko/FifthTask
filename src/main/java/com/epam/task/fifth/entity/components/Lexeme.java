@@ -4,18 +4,22 @@ import com.epam.task.fifth.enums.LexemeType;
 
 import java.util.Objects;
 
-public class LexemeLeaf implements Component, Comparable<LexemeLeaf> {
+public class Lexeme implements Component, Comparable<Lexeme> {
 
     private String value;
     private LexemeType type;
 
-    public LexemeLeaf(String value) {
+    private Lexeme(String value, LexemeType type) {
+        this.type = type;
         this.value = value;
     }
 
-    public LexemeLeaf(String value, LexemeType type) {
-        this.type = type;
-        this.value = value;
+    public static Lexeme buildLexeme(String value) {
+        return new Lexeme(value, null);
+    }
+
+    public static Lexeme buildLexeme(String value, LexemeType type) {
+        return new Lexeme(value, type);
     }
 
     public LexemeType getType() {
@@ -34,9 +38,10 @@ public class LexemeLeaf implements Component, Comparable<LexemeLeaf> {
         this.value = value;
     }
 
+
     @Override
-    public int compareTo(LexemeLeaf o) {
-        return value.compareTo(o.value);
+    public int compareTo(Lexeme o) {
+        return value.length()-o.value.length();
     }
 
     @Override
@@ -44,10 +49,10 @@ public class LexemeLeaf implements Component, Comparable<LexemeLeaf> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof LexemeLeaf)) {
+        if (!(o instanceof Lexeme)) {
             return false;
         }
-        LexemeLeaf that = (LexemeLeaf) o;
+        Lexeme that = (Lexeme) o;
         return type == that.type &&
                 Objects.equals(value, that.value);
     }

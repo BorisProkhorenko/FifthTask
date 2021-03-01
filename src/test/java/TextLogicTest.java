@@ -1,6 +1,6 @@
 import com.epam.task.fifth.entity.components.Component;
-import com.epam.task.fifth.entity.components.LexemeLeaf;
-import com.epam.task.fifth.entity.components.TextComposite;
+import com.epam.task.fifth.entity.components.Composite;
+import com.epam.task.fifth.entity.components.Lexeme;
 import com.epam.task.fifth.enums.LexemeType;
 import com.epam.task.fifth.logic.ComponentException;
 import com.epam.task.fifth.logic.TextLogic;
@@ -8,114 +8,60 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class TextLogicTest {
+
     private static final TextLogic LOGIC = new TextLogic();
-    private static final TextComposite TEXT_COMPOSITE = new TextComposite();
-    private static final TextComposite FIRST_SENTENCE = new TextComposite();
-    private static final TextComposite SECOND_SENTENCE = new TextComposite();
-    private static final TextComposite THIRD_SENTENCE = new TextComposite();
-    private static final TextComposite FIRST_PARAGRAPH = new TextComposite();
-    private static final TextComposite SECOND_PARAGRAPH = new TextComposite();
 
-    private static final TextComposite TEXT_COMPOSITE_SORTED_LEXEMES = new TextComposite();
-    private static final TextComposite FIRST_SENTENCE_SORTED_LEXEMES = new TextComposite();
-    private static final TextComposite SECOND_SENTENCE_SORTED_LEXEMES = new TextComposite();
-    private static final TextComposite THIRD_SENTENCE_SORTED_LEXEMES = new TextComposite();
-    private static final TextComposite FIRST_PARAGRAPH_SORTED_LEXEMES = new TextComposite();
-    private static final TextComposite SECOND_PARAGRAPH_SORTED_LEXEMES = new TextComposite();
 
-    private static final TextComposite EXPRESSIONS_SENTENCE = new TextComposite();
-    private static final TextComposite CALCULATED_SENTENCE = new TextComposite();
-    private static final TextComposite FIRST_EXPRESSION_PARAGRAPH = new TextComposite();
-    private static final TextComposite SECOND_EXPRESSION_PARAGRAPH = new TextComposite();
-    private static final TextComposite FIRST_CALCULATED_PARAGRAPH = new TextComposite();
-    private static final TextComposite SECOND_CALCULATED_PARAGRAPH = new TextComposite();
-    private static final TextComposite EXPRESSIONS_TEXT = new TextComposite();
-    private static final TextComposite CALCULATED_TEXT = new TextComposite();
+    private static final Lexeme TEST = Lexeme.buildLexeme("test!", LexemeType.WORD);
+    private static final Lexeme SENTENCE = Lexeme.buildLexeme("Sentence", LexemeType.WORD);
+    private static final Lexeme WITH = Lexeme.buildLexeme("with", LexemeType.WORD);
+    private static final Lexeme EXPRESSION_WORD = Lexeme.buildLexeme("expression.", LexemeType.WORD);
+    private static final Lexeme SECOND = Lexeme.buildLexeme("Second", LexemeType.WORD);
+    private static final Lexeme PARAGRAPH = Lexeme.buildLexeme("paragraph?", LexemeType.WORD);
+    private static final Lexeme EXPRESSION = Lexeme.buildLexeme("[12345+-/*]", LexemeType.EXPRESSION);
+    private static final Lexeme CALCULATED_EXPRESSION = Lexeme.buildLexeme("3", LexemeType.WORD);
+
+    private static final Composite FIRST_SENTENCE = new Composite();
+    private static final Composite SECOND_SENTENCE = new Composite();
+    private static final Composite THIRD_SENTENCE = new Composite();
+    private static final Composite FIRST_PARAGRAPH = new Composite();
+    private static final Composite SECOND_PARAGRAPH = new Composite();
+    private static final Composite TEXT_COMPOSITE = new Composite();
+
+    private static final Composite FIRST_SENTENCE_SORTED_LEXEMES = new Composite();
+    private static final Composite SECOND_SENTENCE_SORTED_LEXEMES = new Composite();
+    private static final Composite PARAGRAPH_SORTED_LEXEMES = new Composite();
+    private static final Composite CALCULATED_SENTENCE = new Composite();
+    private static final Composite CALCULATED_PARAGRAPH = new Composite();
+
+
 
 
     @BeforeClass
     public static void initialize() {
-
-        FIRST_SENTENCE.addComponent(new LexemeLeaf("Hello", LexemeType.WORD));
-        FIRST_SENTENCE.addComponent(new LexemeLeaf("World", LexemeType.WORD));
-        FIRST_SENTENCE.addComponent(new LexemeLeaf("!", LexemeType.PUNCTUATION));
-
-        SECOND_SENTENCE.addComponent(new LexemeLeaf("I", LexemeType.WORD));
-        SECOND_SENTENCE.addComponent(new LexemeLeaf("love", LexemeType.WORD));
-        SECOND_SENTENCE.addComponent(new LexemeLeaf("Java", LexemeType.WORD));
-        SECOND_SENTENCE.addComponent(new LexemeLeaf(".", LexemeType.PUNCTUATION));
-
-        FIRST_PARAGRAPH.addComponent(FIRST_SENTENCE);
-        FIRST_PARAGRAPH.addComponent(SECOND_SENTENCE);
-
-        THIRD_SENTENCE.addComponent(new LexemeLeaf("Second", LexemeType.WORD));
-        THIRD_SENTENCE.addComponent(new LexemeLeaf("paragraph", LexemeType.WORD));
-        THIRD_SENTENCE.addComponent(new LexemeLeaf("?", LexemeType.PUNCTUATION));
-
+        FIRST_SENTENCE.setComponents(Arrays.asList(SENTENCE,WITH,EXPRESSION,EXPRESSION_WORD));
+        SECOND_SENTENCE.setComponents(Arrays.asList(SENTENCE,TEST));
+        FIRST_PARAGRAPH.setComponents(Arrays.asList(FIRST_SENTENCE,SECOND_SENTENCE));
+        THIRD_SENTENCE.setComponents(Arrays.asList(SECOND,PARAGRAPH));
         SECOND_PARAGRAPH.addComponent(THIRD_SENTENCE);
+        TEXT_COMPOSITE.setComponents(Arrays.asList(FIRST_PARAGRAPH,SECOND_PARAGRAPH));
 
-        TEXT_COMPOSITE.addComponent(FIRST_PARAGRAPH);
-        TEXT_COMPOSITE.addComponent(SECOND_PARAGRAPH);
+        FIRST_SENTENCE_SORTED_LEXEMES.setComponents(Arrays.asList(WITH,SENTENCE,EXPRESSION,EXPRESSION_WORD));
+        SECOND_SENTENCE_SORTED_LEXEMES.setComponents(Arrays.asList(TEST,SENTENCE));
+        PARAGRAPH_SORTED_LEXEMES.setComponents(Arrays.asList(FIRST_SENTENCE_SORTED_LEXEMES,SECOND_SENTENCE_SORTED_LEXEMES));
 
-
-        FIRST_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("!", LexemeType.PUNCTUATION));
-        FIRST_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("Hello", LexemeType.WORD));
-        FIRST_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("World", LexemeType.WORD));
-
-        SECOND_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf(".", LexemeType.PUNCTUATION));
-        SECOND_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("I", LexemeType.WORD));
-        SECOND_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("Java", LexemeType.WORD));
-        SECOND_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("love", LexemeType.WORD));
-
-
-        FIRST_PARAGRAPH_SORTED_LEXEMES.addComponent(FIRST_SENTENCE_SORTED_LEXEMES);
-        FIRST_PARAGRAPH_SORTED_LEXEMES.addComponent(SECOND_SENTENCE_SORTED_LEXEMES);
-
-        THIRD_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("?", LexemeType.PUNCTUATION));
-        THIRD_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("Second", LexemeType.WORD));
-        THIRD_SENTENCE_SORTED_LEXEMES.addComponent(new LexemeLeaf("paragraph", LexemeType.WORD));
-
-
-        SECOND_PARAGRAPH_SORTED_LEXEMES.addComponent(THIRD_SENTENCE_SORTED_LEXEMES);
-
-        TEXT_COMPOSITE_SORTED_LEXEMES.addComponent(FIRST_PARAGRAPH_SORTED_LEXEMES);
-        TEXT_COMPOSITE_SORTED_LEXEMES.addComponent(SECOND_PARAGRAPH_SORTED_LEXEMES);
-
-        EXPRESSIONS_SENTENCE.addComponent(new LexemeLeaf("Test", LexemeType.WORD));
-        EXPRESSIONS_SENTENCE.addComponent(new LexemeLeaf("[12345+-/*]", LexemeType.EXPRESSION));
-        EXPRESSIONS_SENTENCE.addComponent(new LexemeLeaf("[12345+-*/]", LexemeType.EXPRESSION));
-        EXPRESSIONS_SENTENCE.addComponent(new LexemeLeaf(".", LexemeType.PUNCTUATION));
-
-        CALCULATED_SENTENCE.addComponent(new LexemeLeaf("Test", LexemeType.WORD));
-        CALCULATED_SENTENCE.addComponent(new LexemeLeaf("3", LexemeType.WORD));
-        CALCULATED_SENTENCE.addComponent(new LexemeLeaf("12", LexemeType.WORD));
-        CALCULATED_SENTENCE.addComponent(new LexemeLeaf(".", LexemeType.PUNCTUATION));
-
-
-        FIRST_EXPRESSION_PARAGRAPH.addComponent(EXPRESSIONS_SENTENCE);
-        FIRST_EXPRESSION_PARAGRAPH.addComponent(SECOND_SENTENCE);
-
-        SECOND_EXPRESSION_PARAGRAPH.addComponent(FIRST_SENTENCE);
-        SECOND_EXPRESSION_PARAGRAPH.addComponent(EXPRESSIONS_SENTENCE);
-        EXPRESSIONS_TEXT.addComponent(FIRST_EXPRESSION_PARAGRAPH);
-        EXPRESSIONS_TEXT.addComponent(SECOND_EXPRESSION_PARAGRAPH);
-
-        FIRST_CALCULATED_PARAGRAPH.addComponent(CALCULATED_SENTENCE);
-        FIRST_CALCULATED_PARAGRAPH.addComponent(SECOND_SENTENCE);
-
-        SECOND_CALCULATED_PARAGRAPH.addComponent(FIRST_SENTENCE);
-        SECOND_CALCULATED_PARAGRAPH.addComponent(CALCULATED_SENTENCE);
-        CALCULATED_TEXT.addComponent(FIRST_CALCULATED_PARAGRAPH);
-        CALCULATED_TEXT.addComponent(SECOND_CALCULATED_PARAGRAPH);
-
+        CALCULATED_SENTENCE.setComponents(Arrays.asList(SENTENCE,WITH,CALCULATED_EXPRESSION,EXPRESSION_WORD));
+        CALCULATED_PARAGRAPH.setComponents(Arrays.asList(CALCULATED_SENTENCE,SECOND_SENTENCE));
 
     }
 
     @Test
     public void testSortParagraphsWhenTextCompositeApplied() throws ComponentException {
         //given
-        TextComposite expected = new TextComposite();
+        Composite expected = new Composite();
         expected.addComponent(SECOND_PARAGRAPH);
         expected.addComponent(FIRST_PARAGRAPH);
         //when
@@ -141,9 +87,9 @@ public class TextLogicTest {
     @Test
     public void testSortLexemesWhenSentenceCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.sortLexemes(THIRD_SENTENCE);
+        Component actual = LOGIC.sortLexemes(FIRST_SENTENCE);
         //then
-        Assert.assertEquals(THIRD_SENTENCE_SORTED_LEXEMES, actual);
+        Assert.assertEquals(FIRST_SENTENCE_SORTED_LEXEMES, actual);
     }
 
     @Test(expected = ComponentException.class)
@@ -158,20 +104,13 @@ public class TextLogicTest {
         Component actual = LOGIC.sortLexemes(FIRST_PARAGRAPH);
     }
 
-    @Test
-    public void testSortLexemesForEachSentenceSafeWhenTextCompositeApplied() throws ComponentException {
-        //when
-        Component actual = LOGIC.sortLexemesInEachSentence(TEXT_COMPOSITE);
-        //then
-        Assert.assertEquals(TEXT_COMPOSITE_SORTED_LEXEMES, actual);
-    }
 
     @Test
-    public void testSortLexemesForEachSentenceSafeWhenParagraphCompositeApplied() throws ComponentException {
+    public void testSortLexemesForEachSentenceWhenParagraphCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.sortLexemesInEachSentence(FIRST_PARAGRAPH);
         //then
-        Assert.assertEquals(FIRST_PARAGRAPH_SORTED_LEXEMES, actual);
+        Assert.assertEquals(PARAGRAPH_SORTED_LEXEMES, actual);
     }
 
     @Test(expected = ComponentException.class)
@@ -183,7 +122,7 @@ public class TextLogicTest {
     @Test
     public void testCalculateExpressionsWhenSentenceCompositeApplied() throws ComponentException {
         //when
-        Component actual = LOGIC.calculateExpressions(EXPRESSIONS_SENTENCE);
+        Component actual = LOGIC.calculateExpressions(FIRST_SENTENCE);
         //then
         Assert.assertEquals(CALCULATED_SENTENCE, actual);
     }
@@ -198,22 +137,6 @@ public class TextLogicTest {
     public void testCalculateExpressionsWhenParagraphCompositeApplied() throws ComponentException {
         //when
         Component actual = LOGIC.calculateExpressions(SECOND_PARAGRAPH);
-    }
-
-    @Test
-    public void testCalculateExpressionForEachSentenceSafeWhenTextCompositeApplied() throws ComponentException {
-        //when
-        Component actual = LOGIC.calculateExpressionsInEachSentence(EXPRESSIONS_TEXT);
-        //then
-        Assert.assertEquals(CALCULATED_TEXT, actual);
-    }
-
-    @Test
-    public void testCalculateExpressionForEachSentenceSafeWhenParagraphCompositeApplied() throws ComponentException {
-        //when
-        Component actual = LOGIC.calculateExpressionsInEachSentence(FIRST_EXPRESSION_PARAGRAPH);
-        //then
-        Assert.assertEquals(FIRST_CALCULATED_PARAGRAPH, actual);
     }
 
     @Test(expected = ComponentException.class)

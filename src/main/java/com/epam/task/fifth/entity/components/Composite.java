@@ -4,19 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TextComposite implements Component, Comparable<TextComposite> {
+public class Composite implements Component, Comparable<Composite> {
 
     private List<Component> components = new ArrayList<>();
 
-    public TextComposite() {
+    public Composite() {
     }
 
-    public TextComposite(List<Component> components) {
+    public Composite(List<Component> components) {
         this.components = components;
     }
 
     public void addComponent(Component component) {
         components.add(component);
+    }
+
+    public void setComponents(List<Component> components) {
+        this.components = components;
     }
 
     public Component getChild(int index) {
@@ -32,7 +36,7 @@ public class TextComposite implements Component, Comparable<TextComposite> {
     }
 
     @Override
-    public int compareTo(TextComposite o) {
+    public int compareTo(Composite o) {
         return components.size() - o.components.size();
     }
 
@@ -41,10 +45,10 @@ public class TextComposite implements Component, Comparable<TextComposite> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof TextComposite)){
+        if (!(o instanceof Composite)){
             return false;
         }
-        TextComposite that = (TextComposite) o;
+        Composite that = (Composite) o;
         return Objects.equals(components, that.components);
     }
 

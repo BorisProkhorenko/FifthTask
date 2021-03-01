@@ -1,7 +1,6 @@
 package com.epam.task.fifth;
 
 import com.epam.task.fifth.entity.components.Component;
-import com.epam.task.fifth.entity.components.TextComposite;
 import com.epam.task.fifth.parsing.ParagraphParser;
 import com.epam.task.fifth.parsing.SentenceParser;
 import com.epam.task.fifth.parsing.TextParser;
@@ -14,14 +13,12 @@ import java.util.StringJoiner;
 
 public class Director {
 
-    private SentenceParser sentenceParser;
-    private ParagraphParser paragraphParser;
     private TextParser textParser;
     private static final String LINE_DELIMITER = "\n";
 
     public Director() {
-        sentenceParser = new SentenceParser();
-        paragraphParser = new ParagraphParser(sentenceParser);
+        SentenceParser sentenceParser = new SentenceParser();
+        ParagraphParser paragraphParser = new ParagraphParser(sentenceParser);
         textParser = new TextParser(paragraphParser);
     }
 
@@ -41,8 +38,5 @@ public class Director {
         return textParser.parseText(text);
     }
 
-    public String chainParseComponent(TextComposite composite) {
-        return textParser.parseComponent(composite);
-    }
 
 }

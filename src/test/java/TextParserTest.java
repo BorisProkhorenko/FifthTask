@@ -1,6 +1,6 @@
 import com.epam.task.fifth.entity.components.Component;
-import com.epam.task.fifth.entity.components.LexemeLeaf;
-import com.epam.task.fifth.entity.components.TextComposite;
+import com.epam.task.fifth.entity.components.Lexeme;
+import com.epam.task.fifth.entity.components.Composite;
 import com.epam.task.fifth.enums.LexemeType;
 import com.epam.task.fifth.parsing.ParagraphParser;
 import com.epam.task.fifth.parsing.TextParser;
@@ -8,44 +8,38 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class TextParserTest {
+
     private static final String TEXT = "\tHello World! I love Java.\n\tSecond paragraph? Yes!";
-    private static final String FIRST_PARAGRAPH = "Hello World! I love Java.";
-    private static final String SECOND_PARAGRAPH = "Second paragraph? Yes!";
-    private static TextComposite testComposite = new TextComposite();
+    private static Composite testComposite = new Composite();
 
     @Test
     public void testParseText() {
         //given
-        TextComposite firstSentence = new TextComposite();
-        firstSentence.addComponent(new LexemeLeaf("Hello", LexemeType.WORD));
-        firstSentence.addComponent(new LexemeLeaf("World", LexemeType.WORD));
-        firstSentence.addComponent(new LexemeLeaf("!", LexemeType.PUNCTUATION));
+        Composite firstSentence = new Composite();
+        firstSentence.addComponent(Lexeme.buildLexeme("Hello", LexemeType.WORD));
+        firstSentence.addComponent(Lexeme.buildLexeme("World!", LexemeType.WORD));
 
-        TextComposite secondSentence = new TextComposite();
-        secondSentence.addComponent(new LexemeLeaf("I", LexemeType.WORD));
-        secondSentence.addComponent(new LexemeLeaf("love", LexemeType.WORD));
-        secondSentence.addComponent(new LexemeLeaf("Java", LexemeType.WORD));
-        secondSentence.addComponent(new LexemeLeaf(".", LexemeType.PUNCTUATION));
+        Composite secondSentence = new Composite();
+        secondSentence.addComponent(Lexeme.buildLexeme("I", LexemeType.WORD));
+        secondSentence.addComponent(Lexeme.buildLexeme("love", LexemeType.WORD));
+        secondSentence.addComponent(Lexeme.buildLexeme("Java.", LexemeType.WORD));
 
-        TextComposite firstParagraph = new TextComposite();
+        Composite firstParagraph = new Composite();
         firstParagraph.addComponent(firstSentence);
         firstParagraph.addComponent(secondSentence);
 
-        TextComposite thirdSentence = new TextComposite();
-        thirdSentence.addComponent(new LexemeLeaf("Second", LexemeType.WORD));
-        thirdSentence.addComponent(new LexemeLeaf("paragraph", LexemeType.WORD));
-        thirdSentence.addComponent(new LexemeLeaf("?", LexemeType.PUNCTUATION));
+        Composite thirdSentence = new Composite();
+        thirdSentence.addComponent(Lexeme.buildLexeme("Second", LexemeType.WORD));
+        thirdSentence.addComponent(Lexeme.buildLexeme("paragraph?", LexemeType.WORD));
 
-        TextComposite fourthSentence = new TextComposite();
-        fourthSentence.addComponent(new LexemeLeaf("Yes", LexemeType.WORD));
-        fourthSentence.addComponent(new LexemeLeaf("!", LexemeType.PUNCTUATION));
+        Composite fourthSentence = new Composite();
+        fourthSentence.addComponent(Lexeme.buildLexeme("Yes!", LexemeType.WORD));
 
-        TextComposite secondParagraph = new TextComposite();
+        Composite secondParagraph = new Composite();
         secondParagraph.addComponent(thirdSentence);
         secondParagraph.addComponent(fourthSentence);
 
@@ -61,20 +55,4 @@ public class TextParserTest {
         Assert.assertEquals(testComposite, actual);
     }
 
-    @Test
-    public void testParseComponent() {
-        //given
-        testComposite = new TextComposite();
-        Component firstComponent = new TextComposite();
-        Component secondComponent = new TextComposite();
-        testComposite.addComponent(firstComponent);
-        testComposite.addComponent(secondComponent);
-        ParagraphParser mockParagraphParser = Mockito.mock(ParagraphParser.class);
-        when(mockParagraphParser.parseComponent(any(TextComposite.class))).thenReturn(FIRST_PARAGRAPH, SECOND_PARAGRAPH);
-        TextParser parser = new TextParser(mockParagraphParser);
-        //when
-        String actual = parser.parseComponent(testComposite);
-        //then
-        Assert.assertEquals(TEXT, actual);
-    }
 }
